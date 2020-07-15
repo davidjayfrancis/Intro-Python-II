@@ -15,7 +15,11 @@ class Room:
     def __str__(self):
         return f"Room Name: {self.name} \nDescription: {self.description}"
 
-    def addItem(self, name, description):
-        self.items.append(Item(name, description))
+    def addItem(self, item):
+        self.items.append(item)
+
+    def removeItem(self, item):
+        self.items.remove(item)
+    
 
     

@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -17,8 +18,7 @@ the distance, but there is no way across the chasm."""),
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
 
-    'ballroom': Room("Grand Ballroom", """You enter what was once a grand and glorious 
-ballroom. You can only imagine the dances that were held here. Unfortunately, the room 
+    'ballroom': Room("Grand Ballroom", """You can only imagine the dances that were held here. Unfortunately, the room 
 has been ransacked, and only rats crawl the musty expanse. You gaze around, but 
 unfortunately do not see any doors except that from which you entered, to the East."""),
 
@@ -35,13 +35,19 @@ room['foyer'].s_to = room['outside']
 room['foyer'].n_to = room['overlook']
 room['foyer'].e_to = room['narrow']
 room['foyer'].w_to = room['ballroom']
+room['ballroom'].e_to = room['foyer']
 room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 # Add some items 
-room['foyer'].addItem("Rusty sword", "It has not seen use in ages but will get the job done.")
+rusty_sword = Item("Rusty-sword", "It has not seen use in ages but will get the job done.")
+shield = Item("Sheild", "A strong and durable shield")
+wand_of_malice = Item("Wand of Malice", "It looks like a foreboding wand")
+holy_grail = Item("Holy Grail", "Most famous boozer in history")
+
+room['foyer'].addItem(rusty_sword)
 
 #
 # Main
@@ -72,9 +78,24 @@ gameloop = True
 while gameloop: 
     print(f"You enter the '{player.current_room.name}'. {player.current_room.description}")
     displayRoomItemsText(player.current_room)
-    direction = input("Where would you like to go? (enter 'n', 'w', 's', 'e' to travel, or enter 'q' for quit)\n")
+    direction = input("Where would you like to do? (enter 'n', 'w', 's', 'e' to travel, or enter 'q' for quit)\n")
 
-    if direction == 'n':
+    if len(direction.split()) > 1:
+        print(direction)
+        command = direction.split()[0]
+        selected_item = direction.split()[1]
+        print(f"COMMAND {command} SELECTED ITEM {selected_item}")
+
+        if command.lower() == 'get' or command.lower() == 'take':
+            # add the sword to your inventory
+            # remove the sword from the room
+            x = next(item for item in player.current_room.items if item.name == selected_item)
+            x.on_take(player)
+            player.addItem(x)
+            player.current_room.removeItem(x)
+
+
+    elif direction == 'n':
         if player.current_room.n_to:
             player.current_room = player.current_room.n_to
         else: 
@@ -100,8 +121,11 @@ while gameloop:
             input("There's no room in that direction!!! Please try again ('n', 'e', 's', 'w') or press 'q' for quit.")
 
     elif direction == 'q':
-        print(f"Thank you for playing, {name}, it's been a mighty quest!")
+        print(f"Thank you for playing, {player.name}, it's been a mighty quest!")
         gameloop = False
+    
+    else: 
+        print("I don't understand that command. Please try again (or press 'q' to quit)")
 
 
 

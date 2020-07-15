@@ -6,7 +6,18 @@ class Player:
         self.current_room = current_room
         self.items = []
     
+    
     def __str__(self):
         return self.name
 
+    def addItem(self, item):
+        self.items.append(item)
+
+    def dropItem(self, item):
+        self.items.remove(item)
     
+    def listInventory(self):
+        print(f"Number of items in inventory: {len(self.items)}")
+        for i in self.items: 
+            print(f"Name: {i.name} | Description: {i.description}")
+            
