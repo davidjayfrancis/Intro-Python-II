@@ -40,6 +40,9 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Add some items 
+room['foyer'].addItem("Rusty sword", "It has not seen use in ages but will get the job done.")
+
 #
 # Main
 #
@@ -60,10 +63,15 @@ print(player)
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+def displayRoomItemsText(obj):
+    for i in obj.items:
+        print(f"You spy a {i.name}. {i.description}")
+
 gameloop = True
 
 while gameloop: 
     print(f"You enter the '{player.current_room.name}'. {player.current_room.description}")
+    displayRoomItemsText(player.current_room)
     direction = input("Where would you like to go? (enter 'n', 'w', 's', 'e' to travel, or enter 'q' for quit)\n")
 
     if direction == 'n':
