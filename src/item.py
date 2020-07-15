@@ -10,4 +10,4 @@ class Item:
         return self.name
 
     def on_take(self, player):
-        print(f"{player.name} picked up the {self.name}")
+        print(f"{player.name} picked up the {self.name}\n\n")

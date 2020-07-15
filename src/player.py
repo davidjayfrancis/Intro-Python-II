@@ -19,5 +19,5 @@ class Player:
     def listInventory(self):
         print(f"Number of items in inventory: {len(self.items)}")
         for i in self.items: 
-            print(f"Name: {i.name} | Description: {i.description}")
+            print(f"Name: {i.name} | Description: {i.description}\n\n")
             

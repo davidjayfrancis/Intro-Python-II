@@ -42,7 +42,7 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 # Add some items 
-rusty_sword = Item("Rusty-sword", "It has not seen use in ages but will get the job done.")
+rusty_sword = Item("Rusty-Sword", "It has not seen use in ages but will get the job done.")
 shield = Item("Sheild", "A strong and durable shield")
 wand_of_malice = Item("Wand of Malice", "It looks like a foreboding wand")
 holy_grail = Item("Holy Grail", "Most famous boozer in history")
@@ -78,13 +78,12 @@ gameloop = True
 while gameloop: 
     print(f"You enter the '{player.current_room.name}'. {player.current_room.description}")
     displayRoomItemsText(player.current_room)
-    direction = input("Where would you like to do? (enter 'n', 'w', 's', 'e' to travel, or enter 'q' for quit)\n")
+    direction = input("Where would you like to do? (enter 'n', 'w', 's', 'e' to travel, or enter 'q' for quit)")
 
     if len(direction.split()) > 1:
         print(direction)
         command = direction.split()[0]
         selected_item = direction.split()[1]
-        print(f"COMMAND {command} SELECTED ITEM {selected_item}")
 
         if command.lower() == 'get' or command.lower() == 'take':
             # add the sword to your inventory
@@ -93,6 +92,10 @@ while gameloop:
             x.on_take(player)
             player.addItem(x)
             player.current_room.removeItem(x)
+        
+        if command.lower() == 'drop':
+            # remove from inventory and add to room
+            pass
 
 
     elif direction == 'n':
@@ -119,6 +122,9 @@ while gameloop:
             player.current_room = player.current_room.s_to
         else: 
             input("There's no room in that direction!!! Please try again ('n', 'e', 's', 'w') or press 'q' for quit.")
+
+    elif direction == 'i' or command.lower() == 'inventory':
+        player.listInventory()
 
     elif direction == 'q':
         print(f"Thank you for playing, {player.name}, it's been a mighty quest!")
