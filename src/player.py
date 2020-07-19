@@ -15,6 +15,9 @@ class Player:
 
     def dropItem(self, item):
         self.items.remove(item)
+
+    def move(self, direction):
+        pass
     
     def listInventory(self):
         print(f"Number of items in inventory: {len(self.items)}")

@@ -11,3 +11,6 @@ class Item:
 
     def on_take(self, player):
         print(f"{player.name} picked up the {self.name}\n\n")
+
+    def on_drop(self, player):
+        print(f"{player.name} dropped the {self.name}\n\n")

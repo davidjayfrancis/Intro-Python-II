@@ -19,8 +19,7 @@ the distance, but there is no way across the chasm."""),
 to north. The smell of gold permeates the air."""),
 
     'ballroom': Room("Grand Ballroom", """You can only imagine the dances that were held here. Unfortunately, the room 
-has been ransacked, and only rats crawl the musty expanse. You gaze around, but 
-unfortunately do not see any doors except that from which you entered, to the East."""),
+has been ransacked, and only rats crawl the musty expanse. You gaze around, but do not see any doors except that from which you entered, to the East."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
@@ -73,6 +72,11 @@ def displayRoomItemsText(obj):
     for i in obj.items:
         print(f"You spy a {i.name}. {i.description}")
 
+def handleInput(x):
+    dir = f'{x}_to'
+    
+
+
 gameloop = True
 
 while gameloop: 
@@ -95,7 +99,10 @@ while gameloop:
         
         if command.lower() == 'drop':
             # remove from inventory and add to room
-            pass
+            x = next(item for item in player.items if item.name == selected_item)
+            x.on_drop(player)
+            player.dropItem(x)
+            player.current_room.addItem(x)
 
 
     elif direction == 'n':
@@ -123,7 +130,7 @@ while gameloop:
         else: 
             input("There's no room in that direction!!! Please try again ('n', 'e', 's', 'w') or press 'q' for quit.")
 
-    elif direction == 'i' or command.lower() == 'inventory':
+    elif direction == 'i' or direction.lower() == 'inventory':
         player.listInventory()
 
     elif direction == 'q':
